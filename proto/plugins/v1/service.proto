@@ -1,0 +1,10 @@
+syntax = "proto3";
+package plugins.v1;
+
+message GetPluginRequest {}
+
+message GetPluginResponse {}
+
+service PluginService {
+  rpc GetPlugin(GetPluginRequest) returns (GetPluginResponse) {}
+}
