@@ -1,0 +1,9 @@
+syntax = "proto3";
+package kite.plugins.v1;
+
+message PluginVersion {
+  fixed64 id = 1;
+  string tag = 2;
+  string description = 3;
+  string module_hash = 4;
+}

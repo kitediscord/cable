@@ -1,0 +1,99 @@
+syntax = "proto3";
+package kite.plugins.v1;
+
+import "kite/plugins/v1/plugin.proto";
+import "kite/plugins/v1/version.proto";
+
+message GetPluginRequest {
+  fixed64 id = 1;
+}
+
+message GetPluginResponse {
+  Plugin plugin = 1;
+}
+
+message ListPluginsRequest {
+  optional uint32 limit = 1;
+  optional uint32 skip = 2;
+
+  repeated PluginTag tags = 3;
+  string text_search = 4;
+}
+
+message ListPluginsResponse {
+  uint32 total = 1;
+  repeated Plugin plugins = 2;
+}
+
+message CreatePluginRequest {
+  string name = 1;
+  string short_description = 2;
+  string long_description = 3;
+  repeated PluginTag tags = 4;
+}
+
+message CreatePluginResponse {
+  Plugin plugin = 1;
+}
+
+message UpdatePluginRequest {
+  fixed64 id = 1;
+  string name = 2;
+  string short_description = 3;
+  string long_description = 4;
+  repeated PluginTag tags = 5;
+}
+
+message UpdatePluginResponse {
+  Plugin plugin = 1;
+}
+
+message DeletePluginRequest {
+  fixed64 id = 1;
+}
+
+message DeletePluginResponse {}
+
+message ListPluginVersionsRequest {}
+
+message ListPluginVersionsResponse {
+  repeated PluginVersion versions = 1;
+}
+
+message CreatePluginVersionRequest {
+  string tag = 1;
+  string description = 3;
+  bytes module = 4;
+}
+
+message CreatePluginVersionResponse {
+  PluginVersion version = 1;
+}
+
+message DeletePluginVersionRequest {
+  fixed64 id = 1;
+}
+
+message DeletePluginVersionResponse {}
+
+message UpdatePluginVersionRequest {
+  fixed64 id = 1;
+  string description = 2;
+}
+
+message UpdatePluginVersionResponse {
+  PluginVersion version = 1;
+}
+
+service PluginService {
+  rpc GetPlugin(GetPluginRequest) returns (GetPluginResponse);
+  rpc ListPlugins(ListPluginsRequest) returns (ListPluginsResponse);
+  rpc CreatePlugin(CreatePluginRequest) returns (CreatePluginResponse);
+  rpc UpdatePlugin(UpdatePluginRequest) returns (UpdatePluginResponse);
+  rpc DeletePlugin(DeletePluginRequest) returns (DeletePluginResponse);
+
+  rpc ListPluginVersions(ListPluginVersionsRequest) returns (ListPluginVersionsResponse);
+  rpc CreatePluginVersion(CreatePluginVersionRequest) returns (CreatePluginVersionResponse);
+  rpc DeletePluginVersion(DeletePluginVersionRequest) returns (DeletePluginVersionResponse);
+  rpc UpdatePluginVersion(UpdatePluginVersionRequest) returns (UpdatePluginVersionResponse);
+}

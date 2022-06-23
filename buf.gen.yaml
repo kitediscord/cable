@@ -8,11 +8,12 @@ plugins:
       - long_type_string
 
   - name: prost
-    out: rust/src
+    out: rust/src/proto
   - name: tonic
-    out: rust/src
+    out: rust/src/proto
   - name: prost-crate
     out: rust
     strategy: all
     opt:
       - gen_crate=rust/Cargo.template.toml
+      - include_file=src/proto/mod.rs

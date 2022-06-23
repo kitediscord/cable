@@ -1,0 +1,71 @@
+syntax = "proto3";
+package kite.engine.v1;
+
+import "kite/engine/v1/deployment.proto";
+
+message CreateDeploymentRequest {
+  fixed64 guild_id = 1;
+  fixed64 plugin_id = 2;
+
+  fixed64 plugin_version_id = 3;
+  bool enabled = 4;
+}
+
+message CreateDeploymentResponse {
+  Deployment deployment = 1;
+}
+
+message UpdateDeploymentRequest {
+  fixed64 guild_id = 1;
+  fixed64 plugin_id = 2;
+
+  fixed64 plugin_version_id = 3;
+  bool enabled = 4;
+}
+
+message UpdateDeploymentResponse {
+  Deployment deployment = 1;
+}
+
+message DeleteDeploymentRequest {
+  fixed64 guild_id = 1;
+  fixed64 plugin_id = 2;
+}
+
+message DeleteDeploymentResponse {}
+
+message ListDeploymentsRequest {
+  fixed64 guild_id = 1;
+}
+
+message ListDeploymentsResponse {
+  repeated Deployment deployments = 1;
+}
+
+message GetDeploymentRequest {
+  fixed64 guild_id = 1;
+  fixed64 plugin_id = 2;
+}
+
+message GetDeploymentResponse {
+  Deployment deployment = 1;
+}
+
+message StreamDeploymentLogsRequest {
+  fixed64 guild_id = 1;
+  fixed64 plugin_id = 2;
+  optional bool replay = 3;
+}
+
+message StreamDeploymentLogsResponse {
+  DeploymentLogEntry entry = 1;
+}
+
+service EngineService {
+  rpc CreateDeployment(CreateDeploymentRequest) returns (CreateDeploymentResponse);
+  rpc UpdateDeployment(UpdateDeploymentRequest) returns (UpdateDeploymentResponse);
+  rpc DeleteDeployment(DeleteDeploymentRequest) returns (DeleteDeploymentResponse);
+  rpc ListDeployments(ListDeploymentsRequest) returns (ListDeploymentsResponse);
+  rpc GetDeployment(GetDeploymentRequest) returns (GetDeploymentResponse);
+  rpc StreamDeploymentLogs(StreamDeploymentLogsRequest) returns (stream StreamDeploymentLogsResponse);
+}

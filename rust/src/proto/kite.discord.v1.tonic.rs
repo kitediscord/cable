@@ -1,14 +1,14 @@
 // @generated
 /// Generated client implementations.
-pub mod plugin_service_client {
+pub mod discord_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     ///
     #[derive(Debug, Clone)]
-    pub struct PluginServiceClient<T> {
+    pub struct DiscordServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl PluginServiceClient<tonic::transport::Channel> {
+    impl DiscordServiceClient<tonic::transport::Channel> {
         /// Attempt to create a new client by connecting to a given endpoint.
         pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
@@ -19,7 +19,7 @@ pub mod plugin_service_client {
             Ok(Self::new(conn))
         }
     }
-    impl<T> PluginServiceClient<T>
+    impl<T> DiscordServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -33,7 +33,7 @@ pub mod plugin_service_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> PluginServiceClient<InterceptedService<T, F>>
+        ) -> DiscordServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -47,7 +47,7 @@ pub mod plugin_service_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            PluginServiceClient::new(InterceptedService::new(inner, interceptor))
+            DiscordServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -65,10 +65,10 @@ pub mod plugin_service_client {
             self
         }
         ///
-        pub async fn get_plugin(
+        pub async fn list_guilds(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetPluginRequest>,
-        ) -> Result<tonic::Response<super::GetPluginResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::ListGuildsRequest>,
+        ) -> Result<tonic::Response<super::ListGuildsResponse>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -80,34 +80,59 @@ pub mod plugin_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/plugins.v1.PluginService/GetPlugin",
+                "/kite.discord.v1.DiscordService/ListGuilds",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        ///
+        pub async fn get_guild(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetGuildRequest>,
+        ) -> Result<tonic::Response<super::GetGuildResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/kite.discord.v1.DiscordService/GetGuild",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
 }
 /// Generated server implementations.
-pub mod plugin_service_server {
+pub mod discord_service_server {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    ///Generated trait containing gRPC methods that should be implemented for use with PluginServiceServer.
+    ///Generated trait containing gRPC methods that should be implemented for use with DiscordServiceServer.
     #[async_trait]
-    pub trait PluginService: Send + Sync + 'static {
+    pub trait DiscordService: Send + Sync + 'static {
         ///
-        async fn get_plugin(
+        async fn list_guilds(
             &self,
-            request: tonic::Request<super::GetPluginRequest>,
-        ) -> Result<tonic::Response<super::GetPluginResponse>, tonic::Status>;
+            request: tonic::Request<super::ListGuildsRequest>,
+        ) -> Result<tonic::Response<super::ListGuildsResponse>, tonic::Status>;
+        ///
+        async fn get_guild(
+            &self,
+            request: tonic::Request<super::GetGuildRequest>,
+        ) -> Result<tonic::Response<super::GetGuildResponse>, tonic::Status>;
     }
     ///
     #[derive(Debug)]
-    pub struct PluginServiceServer<T: PluginService> {
+    pub struct DiscordServiceServer<T: DiscordService> {
         inner: _Inner<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
     }
     struct _Inner<T>(Arc<T>);
-    impl<T: PluginService> PluginServiceServer<T> {
+    impl<T: DiscordService> DiscordServiceServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
@@ -141,9 +166,9 @@ pub mod plugin_service_server {
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for PluginServiceServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for DiscordServiceServer<T>
     where
-        T: PluginService,
+        T: DiscordService,
         B: Body + Send + 'static,
         B::Error: Into<StdError> + Send + 'static,
     {
@@ -159,24 +184,24 @@ pub mod plugin_service_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/plugins.v1.PluginService/GetPlugin" => {
+                "/kite.discord.v1.DiscordService/ListGuilds" => {
                     #[allow(non_camel_case_types)]
-                    struct GetPluginSvc<T: PluginService>(pub Arc<T>);
+                    struct ListGuildsSvc<T: DiscordService>(pub Arc<T>);
                     impl<
-                        T: PluginService,
-                    > tonic::server::UnaryService<super::GetPluginRequest>
-                    for GetPluginSvc<T> {
-                        type Response = super::GetPluginResponse;
+                        T: DiscordService,
+                    > tonic::server::UnaryService<super::ListGuildsRequest>
+                    for ListGuildsSvc<T> {
+                        type Response = super::ListGuildsResponse;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::GetPluginRequest>,
+                            request: tonic::Request<super::ListGuildsRequest>,
                         ) -> Self::Future {
                             let inner = self.0.clone();
-                            let fut = async move { (*inner).get_plugin(request).await };
+                            let fut = async move { (*inner).list_guilds(request).await };
                             Box::pin(fut)
                         }
                     }
@@ -185,7 +210,45 @@ pub mod plugin_service_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
-                        let method = GetPluginSvc(inner);
+                        let method = ListGuildsSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/kite.discord.v1.DiscordService/GetGuild" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetGuildSvc<T: DiscordService>(pub Arc<T>);
+                    impl<
+                        T: DiscordService,
+                    > tonic::server::UnaryService<super::GetGuildRequest>
+                    for GetGuildSvc<T> {
+                        type Response = super::GetGuildResponse;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::GetGuildRequest>,
+                        ) -> Self::Future {
+                            let inner = self.0.clone();
+                            let fut = async move { (*inner).get_guild(request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = GetGuildSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(
@@ -212,7 +275,7 @@ pub mod plugin_service_server {
             }
         }
     }
-    impl<T: PluginService> Clone for PluginServiceServer<T> {
+    impl<T: DiscordService> Clone for DiscordServiceServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -222,7 +285,7 @@ pub mod plugin_service_server {
             }
         }
     }
-    impl<T: PluginService> Clone for _Inner<T> {
+    impl<T: DiscordService> Clone for _Inner<T> {
         fn clone(&self) -> Self {
             Self(self.0.clone())
         }
@@ -232,7 +295,7 @@ pub mod plugin_service_server {
             write!(f, "{:?}", self.0)
         }
     }
-    impl<T: PluginService> tonic::transport::NamedService for PluginServiceServer<T> {
-        const NAME: &'static str = "plugins.v1.PluginService";
+    impl<T: DiscordService> tonic::transport::NamedService for DiscordServiceServer<T> {
+        const NAME: &'static str = "kite.discord.v1.DiscordService";
     }
 }

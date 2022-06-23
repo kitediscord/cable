@@ -1,0 +1,18 @@
+syntax = "proto3";
+package kite.plugins.v1;
+
+enum PluginTag {
+  PLUGIN_TAG_UNSPECIFIED = 0;
+  PLUGIN_TAG_UTILITY = 1;
+}
+
+message Plugin {
+  fixed64 id = 1;
+  fixed64 creator_id = 2;
+  bool public = 3;
+
+  string name = 4;
+  string short_description = 5;
+  string long_description = 6;
+  repeated PluginTag tags = 7;
+}

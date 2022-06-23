@@ -1,0 +1,22 @@
+syntax = "proto3";
+package kite.engine.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message Deployment {
+  fixed64 guild_id = 1;
+  fixed64 plugin_id = 2;
+
+  fixed64 plugin_version_id = 3;
+  bool enabled = 4;
+}
+
+enum DeploymentLogLevel {
+  DEPLOYMENT_LOG_LEVEL_UNSPECIFIED = 0;
+}
+
+message DeploymentLogEntry {
+  google.protobuf.Timestamp timestamp = 1;
+  DeploymentLogLevel level = 2;
+  string text = 3;
+}

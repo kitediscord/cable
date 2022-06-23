@@ -1,0 +1,25 @@
+syntax = "proto3";
+package kite.discord.v1;
+
+import "kite/discord/v1/guild.proto";
+
+message ListGuildsRequest {
+  repeated fixed64 ids = 1;
+}
+
+message ListGuildsResponse {
+  repeated Guild guilds = 1;
+}
+
+message GetGuildRequest {
+  fixed64 id = 1;
+}
+
+message GetGuildResponse {
+  Guild guild = 1;
+}
+
+service DiscordService {
+  rpc ListGuilds(ListGuildsRequest) returns (ListGuildsResponse);
+  rpc GetGuild(GetGuildRequest) returns (GetGuildResponse);
+}

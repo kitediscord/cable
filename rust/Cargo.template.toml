@@ -6,7 +6,9 @@ description = "Protocol definitions for communication between Kite services"
 
 [dependencies]
 prost = "0.10.4"
-tonic = "0.7.2"
+tonic = { version = "0.7.2", features = ["compression"] }
+prost-types = "0.10.1"
 
 [features]
+default = ["proto_full"]
 # @@protoc_insertion_point(features)
