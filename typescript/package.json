@@ -4,8 +4,17 @@
   "description": "Protocol definitions for communication between Kite services",
   "author": "",
   "license": "AGPL-3.0",
+  "type": "module",
   "dependencies": {
+    "@protobuf-ts/grpc-transport": "^2.7.0",
     "@protobuf-ts/runtime": "^2.7.0",
     "@protobuf-ts/runtime-rpc": "^2.7.0"
-  }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "files": ["src/**/*"]
 }
